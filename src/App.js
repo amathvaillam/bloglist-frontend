@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import './App.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState('')
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [classname, setClassname] = useState('')
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -47,7 +50,8 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
+      setErrorMessage('Wrong username or password')
+
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -57,6 +61,14 @@ const App = () => {
     window.localStorage.clear();
     setUser(null)
   }
+  const Notification = ({ message, classname }) => message === null
+    ? null
+    : (<div className={classname}>{message}</div>)
+
+  const SuccessNotification = ({ successMessage, classname = 'success' }) => 
+   <Notification message={successMessage} classname={classname}></Notification>
+  const ErrorNotification = ({ errorMessage, classname = 'fail' }) => 
+  <Notification message={errorMessage} classname={classname}></Notification>
 
   const handleCreate = async (event) => {
     event.preventDefault()
@@ -64,13 +76,18 @@ const App = () => {
       const newBlog = await blogService.create({
         title, author, url
       })
-      if (newBlog.user)
-        blogService.getAll().then(blogs =>
-          setBlogs(blogs)
-        )
+      if (newBlog.user) {
+        const blogs = await blogService.getAll()
+        setBlogs(blogs)
+        setSuccessMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
+      }
+
     } catch (exception) {
-      console.log(exception)
-      setErrorMessage('Error')
+
+      setErrorMessage(exception.response.data.error)
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -81,6 +98,8 @@ const App = () => {
     return (
       <div>
         <h2>log in to application</h2>
+        {successMessage && <SuccessNotification successMessage={successMessage}></SuccessNotification>}
+        {errorMessage && <ErrorNotification errorMessage={errorMessage}></ErrorNotification>}
         <form onSubmit={handleLogin}>
           <div>
             username
@@ -108,6 +127,8 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <div><p>{user.name} is logged-in<button onClick={() => { handleLogout() }}>logout</button></p></div>
+      {successMessage && <SuccessNotification successMessage={successMessage}></SuccessNotification>}
+      {errorMessage && <ErrorNotification errorMessage={errorMessage}></ErrorNotification>}
       <h2>create new</h2>
       <form onSubmit={handleCreate}>
         <div>

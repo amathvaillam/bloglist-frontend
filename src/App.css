@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.success {
+  border: green 2px solid;
+  color: green;
+  background: lightgrey;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.fail {
+  border: red 2px solid;
+  color: red;
+  background: lightgrey;
+  padding: 10px;
+  border-radius: 5px;
+}
