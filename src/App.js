@@ -7,6 +7,7 @@ import loginService from './services/login'
 
 
 import './App.css'
+import TogglableBlog from './components/TogglableBlog';
 
 const App = () => {
 
@@ -19,7 +20,7 @@ const App = () => {
   const [classname, setClassname] = useState('')
 
   const [user, setUser] = useState(null)
-  
+
   const blogRef = useRef()
 
   useEffect(() => {
@@ -63,7 +64,7 @@ const App = () => {
 
   const createBlog = async ({ title, author, url }) => {
     try {
-      blogRef.current.toggleVisibility() 
+      blogRef.current.toggleVisibility()
       const newBlog = await blogService.create({
         title, author, url
       })
@@ -141,7 +142,9 @@ const App = () => {
         </BlogForm>
       </Togglable>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <TogglableBlog blog={blog}>
+          <Blog key={blog.id} blog={blog}></Blog>
+        </TogglableBlog>
       )}
     </div>
   )

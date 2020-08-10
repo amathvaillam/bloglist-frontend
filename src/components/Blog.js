@@ -1,7 +1,11 @@
 import React from 'react'
+import Togglable from './Togglable'
+
 const Blog = ({ blog }) => (
   <div>
-    {blog.title} {blog.author}
+    <div>{blog.url}</div>
+    <div>likes {blog.likes}  <button>like</button></div>
+    <div>{blog.author}</div>
   </div>
 )
 
