@@ -86,6 +86,27 @@ const App = () => {
     }
   }
 
+  const update = async (blog) => {
+    try {
+      const updatedBlog = await blogService.update(blog)
+      if (updatedBlog.id) {
+        const blogs = await blogService.getAll()
+        setBlogs(blogs)
+        setSuccessMessage(`the blog ${updatedBlog.title} by ${updatedBlog.author} updated`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
+      }
+
+    } catch (exception) {
+
+      setErrorMessage(exception.response.data.error)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
   const handleLogout = () => {
     window.localStorage.clear();
     setUser(null)
@@ -142,8 +163,8 @@ const App = () => {
         </BlogForm>
       </Togglable>
       {blogs.map(blog =>
-        <TogglableBlog blog={blog}>
-          <Blog key={blog.id} blog={blog}></Blog>
+        <TogglableBlog blog={blog} key={blog.id}>
+          <Blog blog={blog} update={update}></Blog>
         </TogglableBlog>
       )}
     </div>
