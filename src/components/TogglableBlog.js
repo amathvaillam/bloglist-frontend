@@ -11,11 +11,11 @@ const TogglableBlog = (props) => {
 
     return (
         <div style={{
-            borderStyle: 'solid', 
-            borderWidth: '1px', 
-            borderColor: 'black', 
+            borderStyle: 'solid',
+            borderWidth: '1px',
+            borderColor: 'black',
             paddingTop: 10,
-            marginBottom: 10}}>
+            marginBottom: 10 }}>
             <div >
                 {props.blog.title}  <button onClick={toggleVisibility}>{visible ? 'hide' : 'show'}</button>
             </div>
