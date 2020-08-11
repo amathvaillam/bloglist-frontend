@@ -107,6 +107,27 @@ const App = () => {
     }
   }
 
+  const remove = async (blog) => {
+    try {
+      if (window.confirm(`remove blog ${blog.title} by ${blog.author}`)) {
+        const removedId = await blogService.remove(blog.id)
+        const blogs = await blogService.getAll()
+        setBlogs(blogs)
+        setSuccessMessage(`the blog ${blog.title} by ${blog.author} removed`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
+      }
+
+    } catch (exception) {
+
+      setErrorMessage(exception.response.data.error)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
   const handleLogout = () => {
     window.localStorage.clear();
     setUser(null)
@@ -164,7 +185,7 @@ const App = () => {
       </Togglable>
       {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
         <TogglableBlog blog={blog} key={blog.id}>
-          <Blog blog={blog} update={update}></Blog>
+          <Blog blog={blog} update={update} remove={remove}></Blog>
         </TogglableBlog>
       )}
     </div>
