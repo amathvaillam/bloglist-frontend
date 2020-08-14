@@ -1,19 +1,19 @@
-import React, { useState } from 'react'
+import React,{ useState } from 'react'
 import PropTypes from 'prop-types'
-const Blog = ({ blog, update, remove }) => {
+const Blog = ( { blog,update,remove } ) => {
 
-    const [likes, setLikes] = useState(blog.likes)
+    const [ likes,setLikes ] = useState( blog.likes )
     return (
         <div>
-            <div>{blog.url}</div>
-            <div>likes {likes}  <button onClick={() => {
-                setLikes(likes + 1)
-                update({ ...blog, likes })
-            }}>like</button></div>
-            <div>{blog.author}</div>
-            <div><button style={{ backgroundColor: 'blue' }} onClick={() => {
-                remove(blog)
-            }}>remove</button>
+            <div className="url">{ blog.url }</div>
+            <div className="likes">likes { likes }  <button onClick={ () => {
+                setLikes( likes + 1 )
+                update( { ...blog,likes } )
+            } }>like</button></div>
+            <div className="author">{ blog.author }</div>
+            <div><button style={ { backgroundColor: 'blue' } } onClick={ () => {
+                remove( blog )
+            } }>remove</button>
             </div>
         </div>
     )
