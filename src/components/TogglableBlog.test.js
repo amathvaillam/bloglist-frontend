@@ -6,6 +6,7 @@ import Blog from './Blog'
 
 describe( '<Blog>',() => {
     let component
+    const mockHandler = jest.fn()
     const blog = {
         url: 'www.uuuu.com',
         title: 'the u blog',
@@ -15,17 +16,15 @@ describe( '<Blog>',() => {
     beforeEach( () => {
         component = render(
             <TogglableBlog blog={ blog }>
-                <Blog blog={ blog }></Blog>
+                <Blog blog={ blog } update={ mockHandler }></Blog>
             </TogglableBlog>
         )
     } )
 
     test( 'renders content',() => {
-        component.debug()
+
         const resume = component.container.querySelector( '.resume' )
         const togglableContent = component.container.querySelector( '.togglableContent' )
-        const author = component.container.querySelector( '.author' )
-        const likes = component.container.querySelector( '.likes' )
 
         expect( resume ).toHaveTextContent(
             `${ blog.title } ${ blog.author }`
@@ -36,11 +35,17 @@ describe( '<Blog>',() => {
     test( 'clicking the button shown',() => {
 
         const togglableContent = component.container.querySelector( '.togglableContent' )
-        const author = component.container.querySelector( '.author' )
-        const likes = component.container.querySelector( '.likes' )
         const button = component.container.querySelector( '.shown' )
 
         fireEvent.click( button )
         expect( togglableContent ).not.toHaveStyle( 'display: none' )
+    } )
+
+    test( 'clicking the like button twice',() => {
+
+        const button = component.container.querySelector( '.likeButton' )
+        fireEvent.click( button )
+        fireEvent.click( button )
+        expect( mockHandler.mock.calls ).toHaveLength( 2 )
     } )
 } )

@@ -6,7 +6,7 @@ const Blog = ( { blog,update,remove } ) => {
     return (
         <div>
             <div className="url">{ blog.url }</div>
-            <div className="likes">likes { likes }  <button onClick={ () => {
+            <div className="likes">likes { likes }  <button className="likeButton" onClick={ () => {
                 setLikes( likes + 1 )
                 update( { ...blog,likes } )
             } }>like</button></div>
