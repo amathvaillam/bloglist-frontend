@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
+import { render,fireEvent } from '@testing-library/react'
 import TogglableBlog from './TogglableBlog'
 import Blog from './Blog'
 
@@ -31,5 +31,16 @@ describe( '<Blog>',() => {
             `${ blog.title } ${ blog.author }`
         )
         expect( togglableContent ).toHaveStyle( 'display: none' )
+    } )
+
+    test( 'clicking the button shown',() => {
+
+        const togglableContent = component.container.querySelector( '.togglableContent' )
+        const author = component.container.querySelector( '.author' )
+        const likes = component.container.querySelector( '.likes' )
+        const button = component.container.querySelector( '.shown' )
+
+        fireEvent.click( button )
+        expect( togglableContent ).not.toHaveStyle( 'display: none' )
     } )
 } )

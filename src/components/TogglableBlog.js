@@ -18,7 +18,7 @@ const TogglableBlog = ( props ) => {
             marginBottom: 10
         } }>
             <div className='resume'>
-                { props.blog.title } { props.blog.author } <button onClick={ toggleVisibility }>{ visible ? 'hide' : 'show' }</button>
+                { props.blog.title } { props.blog.author } <button className="shown" onClick={ toggleVisibility }>{ visible ? 'hide' : 'show' }</button>
             </div>
             <div className='togglableContent' style={ showWhenVisible }>{ props.children }</div>
         </div>
