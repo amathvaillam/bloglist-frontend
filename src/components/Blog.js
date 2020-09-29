@@ -11,7 +11,7 @@ const Blog = ( { blog,update,remove } ) => {
                 update( { ...blog,likes } )
             } }>like</button></div>
             <div className="author">{ blog.author }</div>
-            <div><button style={ { backgroundColor: 'blue' } } onClick={ () => {
+            <div><button className="delete" style={ { backgroundColor: 'blue' } } onClick={ () => {
                 remove( blog )
             } }>remove</button>
             </div>

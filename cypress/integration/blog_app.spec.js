@@ -51,10 +51,15 @@ describe( 'Blog app',function () {
         } )
         it( 'A blog can be liked',function () {
             cy.createBlog( { title: 'libellule',author: 'mouha',url: 'mouha.com' } )
-
             cy.contains( 'libellule mouha' ).find( '.shown' ).click()
             cy.get( '.likeButton' ).click()
             cy.get( '.likes' ).contains( '1' )
+        } )
+        it.only( 'A blog can be deleted',function () {
+            cy.createBlog( { title: 'libellule',author: 'mouha',url: 'mouha.com' } )
+            cy.contains( 'libellule mouha' ).find( '.shown' ).click()
+            cy.get( '.delete' ).click()
+            cy.get( '.blog' ).should( 'not.contain','libellule mouha' )
         } )
 
     } )
