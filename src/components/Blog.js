@@ -4,7 +4,7 @@ const Blog = ( { blog,update,remove } ) => {
 
     const [ likes,setLikes ] = useState( blog.likes )
     return (
-        <div>
+        <div className="blog">
             <div className="url">{ blog.url }</div>
             <div className="likes">likes { likes }  <button className="likeButton" onClick={ () => {
                 setLikes( likes + 1 )

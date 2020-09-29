@@ -34,6 +34,21 @@ describe( 'Blog app',function () {
             cy.contains( 'Matti Luukkainen is logged-in' )
         } )
 
+    } )
+
+    describe( 'When Logged in',function () {
+        beforeEach( function () {
+            cy.login( { username: 'mluukkai',password: 'salainen' } )
+        } )
+        it( 'A blog can be created',function () {
+            cy.contains( 'create new' ).click()
+            cy.get( '.title' ).type( 'basket' )
+            cy.get( '.author' ).type( 'amath' )
+            cy.get( '.url' ).type( 'basketusa.com' )
+            cy.get( '.save' ).click()
+            cy.get( '.resume' ).contains( 'basket amath' )
+            cy.contains( 'a new blog basket by amath added' )
+        } )
 
     } )
 } )
