@@ -35,13 +35,14 @@ Cypress.Commands.add( 'login',( { username,password } ) => {
 
 Cypress.Commands.add( 'createBlog',( { author,title,url } ) => {
     cy.request( {
-        url: 'http://localhost:3001/api/blog',
+        url: 'http://localhost:3003/api/blogs',
         method: 'POST',
         body: { author,title,url },
         headers: {
             'Authorization': `bearer ${ JSON.parse( localStorage.getItem( 'loggedBlogappUser' ) ).token }`
         }
+    } ).then( response => {
+        cy.visit( 'http://localhost:3000' )
     } )
 
-    cy.visit( 'http://localhost:3000' )
 } )

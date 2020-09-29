@@ -49,6 +49,13 @@ describe( 'Blog app',function () {
             cy.get( '.resume' ).contains( 'basket amath' )
             cy.contains( 'a new blog basket by amath added' )
         } )
+        it( 'A blog can be liked',function () {
+            cy.createBlog( { title: 'libellule',author: 'mouha',url: 'mouha.com' } )
+
+            cy.contains( 'libellule mouha' ).find( '.shown' ).click()
+            cy.get( '.likeButton' ).click()
+            cy.get( '.likes' ).contains( '1' )
+        } )
 
     } )
 } )
