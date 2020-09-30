@@ -40,6 +40,7 @@ describe( 'Blog app',function () {
         beforeEach( function () {
             cy.login( { username: 'mluukkai',password: 'salainen' } )
         } )
+
         it( 'A blog can be created',function () {
             cy.contains( 'create new' ).click()
             cy.get( '.title' ).type( 'basket' )
@@ -49,18 +50,32 @@ describe( 'Blog app',function () {
             cy.get( '.resume' ).contains( 'basket amath' )
             cy.contains( 'a new blog basket by amath added' )
         } )
+
         it( 'A blog can be liked',function () {
             cy.createBlog( { title: 'libellule',author: 'mouha',url: 'mouha.com' } )
             cy.contains( 'libellule mouha' ).find( '.shown' ).click()
             cy.get( '.likeButton' ).click()
             cy.get( '.likes' ).contains( '1' )
         } )
-        it.only( 'A blog can be deleted',function () {
+
+        it( 'A blog can be deleted',function () {
             cy.createBlog( { title: 'libellule',author: 'mouha',url: 'mouha.com' } )
             cy.contains( 'libellule mouha' ).find( '.shown' ).click()
             cy.get( '.delete' ).click()
             cy.get( '.blog' ).should( 'not.contain','libellule mouha' )
         } )
 
+        it.only( 'A blog with most likes',function () {
+            cy.createBlog( { title: 'libellule',author: 'mouha',url: 'mouha.com' } )
+            cy.createBlog( { title: 'lion',author: 'mouha',url: 'mouha.com' } )
+            cy.contains( 'libellule mouha' ).find( '.shown' ).click()
+            cy.contains( 'libellule mouha' ).parent().find( '.likeButton' ).as( 'theButton' )
+            cy.get( '@theButton' ).click()
+            cy.get( '@theButton' ).click()
+
+            cy.get( '.resume' ).then( blogs => {
+                cy.wrap( blogs[ 0 ] ).contains( 'libellule mouha' )
+            } )
+        } )
     } )
 } )
